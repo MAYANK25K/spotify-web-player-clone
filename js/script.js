@@ -1,8 +1,12 @@
-console.log('Lets write JavaScript');
 let currentSong = new Audio();
 let songs;
 let currFolder;
 
+/**
+ * Formats raw seconds into a MM:SS string.
+ * @param {number} seconds - The duration in seconds.
+ * @returns {string} - Formatted time string (e.g., "02:45").
+ */
 function secondsToMinutesSeconds(seconds) {
     if (isNaN(seconds) || seconds < 0) {
         return "00:00";
@@ -17,6 +21,12 @@ function secondsToMinutesSeconds(seconds) {
     return `${formattedMinutes}:${formattedSeconds}`;
 }
 
+/**
+ * Fetches song data from a local directory.
+ * Note: Uses server-side directory listing (requires local server).
+ * @param {string} folder - The directory path to scan (e.g., "songs/ncs").
+ * @returns {Promise<Array>} - A list of decoded song filenames.
+ */
 async function getSongs(folder) {
     currFolder = folder;
     let a = await fetch(`/${folder}/`);
@@ -59,6 +69,11 @@ async function getSongs(folder) {
     return songs;
 }
 
+/**
+ * Controls audio playback and updates the UI player bar.
+ * @param {string} track - The filename of the track to play.
+ * @param {boolean} [pause=false] - Whether to load the track without playing immediately.
+ */
 const playMusic = (track, pause = false) => {
     if (!track) {
         console.error("Track is undefined. Cannot play music.");
@@ -73,8 +88,11 @@ const playMusic = (track, pause = false) => {
     document.querySelector(".songtime").innerHTML = "00:00 / 00:00";
 };
 
+/**
+ * Dynamically generates album cards by scanning the /songs/ directory.
+ * Expects an info.json file in each album folder.
+ */
 async function displayAlbums() {
-    console.log("displaying albums");
     try {
         let a = await fetch(`/songs/`);
         let response = await a.text();
@@ -87,8 +105,6 @@ async function displayAlbums() {
         for (const e of anchors) {
             const folderNameWithSlash = e.textContent;
             
-            // --- THIS IS THE FINAL CORRECTED LOGIC ---
-            // It reads the clean link text instead of the broken href.
             if (folderNameWithSlash.endsWith('/') && folderNameWithSlash !== "../") {
                 const folder = folderNameWithSlash.slice(0, -1); // Remove trailing '/'
 
@@ -112,6 +128,7 @@ async function displayAlbums() {
             }
         }
 
+        // Attach event listeners to new cards
         Array.from(document.getElementsByClassName("card")).forEach(e => {
             e.addEventListener("click", async item => {
                 songs = await getSongs(`songs/${item.currentTarget.dataset.folder}`);
@@ -126,8 +143,11 @@ async function displayAlbums() {
     }
 }
 
-
+/**
+ * Main initialization function.
+ */
 async function main() {
+    // Load default playlist
     await getSongs("songs/ncs");
     
     if (songs.length > 0) {
@@ -138,6 +158,7 @@ async function main() {
 
     await displayAlbums();
 
+    // Attach Player Event Listeners
     play.addEventListener("click", () => {
         if (currentSong.paused) {
             currentSong.play();

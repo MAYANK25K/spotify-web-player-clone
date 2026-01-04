@@ -9,10 +9,17 @@ A responsive, JavaScript-driven music player that replicates the core functional
 
 ## 📸 Demo & Screenshots
 
-**[Link to Video Demo / Live Site]**
+### 🎥 Live Video Demo
+**[🔴 Watch the Full Demo in assets file]**
 
-![App Screenshot](assets/screenshot-desktop.png)
-*(Note: Create an 'assets' folder and add your screenshots there)*
+
+### 🖼️ UI Gallery
+<div style="display: flex; gap: 10px; flex-wrap: wrap;">
+  <img src="assets/screenshot-1.png" alt="Home Interface" width="45%">
+  <img src="assets/screenshot-2.png" alt="Playlist View" width="45%">
+</div>
+<br>
+<img src="assets/screenshot-3.png" alt="Mobile/Responsive View" width="92%">
 
 ---
 
@@ -47,7 +54,7 @@ You **must** use a local server to run this:
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/YOUR_USERNAME/spotify-web-player-clone.git](https://github.com/YOUR_USERNAME/spotify-web-player-clone.git)
+    git clone [https://github.com/MAYANK25K/spotify-web-player-clone.git](https://github.com/MAYANK25K/spotify-web-player-clone.git)
     ```
 2.  **Open in VS Code:**
     ```bash
@@ -63,9 +70,11 @@ You **must** use a local server to run this:
 
 * **The Physics of UI:** I learned that `transition: all .9s` creates a luxurious, "heavy" feel for the cards, whereas the sidebar needed a faster `.3s` transition to feel snappy on mobile. Tuning these values was critical for the professional feel.
 * **The Power of Async/Await:** I initially struggled with songs not loading before the UI rendered. I learned to use `async` functions to ensure the folder structure was fully parsed before attempting to play music.
+* **CSS Architecture:** I created a `utility.css` file to create reusable classes (like `.flex`, `.bg-black`, `.rounded`), essentially building a mini-framework to keep my main `style.css` clean.
 * **Audio State Management:** Handling the edge cases of the `Audio` object (e.g., what happens if the user clicks "Next" continuously?) taught me a lot about defending against runtime errors.
 
 ## 🔮 Future Improvements
 
 * **Authentication:** Integrate Firebase to allow users to create their own accounts.
 * **Persistent Storage:** Use `localStorage` to save the last played song and volume preference so it persists on page refresh.
+* **Backend:** Replace the folder scraping with a Node.js/Express API to serve song metadata more securely.
